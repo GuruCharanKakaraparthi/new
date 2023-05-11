@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pie Chart Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<style>
+
+    .chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+</style>
+<body>
+    <div class="chart-container" style="position: relative; height:60vh; width:80vw">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        // Get the earthquake data and labels from Flask
+        var labels = {{ labels|tojson }};
+        var counts = {{ counts|tojson }};
+
+        // Create a new pie chart with the data and labels
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: counts,
+                    backgroundColor: ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'pink', 'grey', 'brown', 'cyan', 'magenta', 'violet']
+                }]
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Earthquake Magnitude Distribution'
+                },
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        fontColor: 'black',
+                        fontSize: 14
+                    }
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            var label = data.labels[tooltipItem.index];
+                            var value = data.datasets[0].data[tooltipItem.index];
+                            return label + ': ' + value;
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

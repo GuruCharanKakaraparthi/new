@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+    {% if word_occurrences %}
+        <table>
+            <tr>
+                <th>Word</th>
+                <th>Total Count</th>
+                <th>Sentences</th>
+            </tr>
+            {% for word, count in word_counts.items() %}
+                <tr>
+                    <td>{{ word }}</td>
+                    <td>{{ count }}</td>
+                    <td>
+                        <ul>
+                            {% for occurrence in word_occurrences[word] %}
+                                <li>Sentence {{ occurrence[0] }}: {{ occurrence[1] }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+</body>
+</html>
